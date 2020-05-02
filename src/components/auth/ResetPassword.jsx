@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { resetPassword } from "../../actions/authActions";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-class Login extends Component {
+class ResetPassword extends Component {
   state = {
     phone: "",
     password: "",
     errors: {},
+    confirmPassword: "",
+    confirmPasswordError: "",
+    resetPasswordMessage: "",
   };
 
   onChange = (e) => {
@@ -17,20 +20,35 @@ class Login extends Component {
     });
   };
 
-  login = (e) => {
+  resetPassword = (e) => {
     e.preventDefault();
 
-    const { phone, password } = this.state;
-    const loginDetails = {
-      phone,
-      password,
-    };
-    this.props.loginUser(loginDetails);
+    const { phone, password, confirmPassword, errors } = this.state;
+
+    if (confirmPassword !== password) {
+      this.setState({
+        confirmPasswordError: "Password do not match",
+      });
+      console.log(errors);
+    } else {
+      const loginDetails = {
+        phone,
+        password,
+      };
+      this.props.resetPassword(loginDetails);
+    }
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.auth.isAuthenticated) {
       props.history.push("/suppliers");
+    }
+    if (props.resetPasswordMessage !== state.resetPasswordMessage) {
+      if (
+        props.resetPasswordMessage.message === "Password reset was successful"
+      ) {
+        props.history.push("/");
+      }
     }
     if (props.errors !== state.errors) {
       return {
@@ -40,9 +58,14 @@ class Login extends Component {
   }
 
   render() {
-    const { phone, password, errors } = this.state;
-    // console.log(this.props.auth);
-    console.log(errors);
+    const {
+      phone,
+      password,
+      errors,
+      confirmPassword,
+      confirmPasswordError,
+    } = this.state;
+    
     return (
       <React.Fragment>
         <div className="container h-100">
@@ -58,7 +81,7 @@ class Login extends Component {
                 </div>
               </div>
               <div className="d-flex justify-content-center form_container">
-                <form onSubmit={(e) => this.login(e)}>
+                <form onSubmit={(e) => this.resetPassword(e)}>
                   <div className="input-group mb-3">
                     <div className="input-group-append">
                       <span className="input-group-text">
@@ -96,24 +119,32 @@ class Login extends Component {
                   {errors.password && (
                     <small className="text-danger">{errors.password}</small>
                   )}
-                  {errors.message && (
-                    <small className="text-danger">{errors.message}</small>
-                  )}
-                  {/* <div className="form-group">
-                    <div className="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="customControlInline"
-                      />
-                      <label
-                        className="custom-control-label"
-                        for="customControlInline"
-                      >
-                        Remember me
-                      </label>
+                  <div className="input-group mb-2">
+                    <div className="input-group-append">
+                      <span className="input-group-text">
+                        <i className="fas fa-key"></i>
+                      </span>
                     </div>
-                  </div> */}
+                    <input
+                      type="password"
+                      className="form-control input_pass"
+                      placeholder="Confirm Password"
+                      value={confirmPassword}
+                      name="confirmPassword"
+                      onChange={this.onChange}
+                    />
+                  </div>
+                  <div className="d-flex justify-content-center flex-row">
+                    {confirmPasswordError === "Password do not match" && (
+                      <small className="text-danger">
+                        {confirmPasswordError}
+                      </small>
+                    )}
+                    {errors.message && (
+                      <small className="text-danger">{errors.message}</small>
+                    )}
+                  </div>
+
                   <div className="d-flex justify-content-center mt-5 login_container">
                     <button
                       type="submit"
@@ -121,7 +152,7 @@ class Login extends Component {
                       className="btn login_btn"
                       // to="/suppliers"
                     >
-                      Login
+                      Reset Password
                     </button>
                   </div>
                   <div className="d-flex justify-content-center">
@@ -129,9 +160,9 @@ class Login extends Component {
                       <Link
                         style={{ textDecoration: "none" }}
                         className="text-dark"
-                        to="/resetPassword"
+                        to="/"
                       >
-                        Reset Password
+                        Login Instead
                       </Link>
                     </small>
                   </div>
@@ -145,15 +176,16 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+ResetPassword.propTypes = {
+  resetPassword: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  resetPasswordMessage: state.auth.passwordReset,
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { resetPassword })(ResetPassword);

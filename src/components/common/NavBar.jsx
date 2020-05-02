@@ -1,24 +1,40 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import Logo from "../../img/logo.jpg";
+import { logoutUser } from "../../actions/authActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class NavBar extends Component {
   state = {};
 
-  setActiveLink = (n)  => {
-      
+  setActiveLink = (n) => {};
+
+  componentDidMount() {
+    if (!this.props.auth.isAuthenticated) {
+      this.props.history.push("/");
+    }
   }
+
+  logoutUser = () => {
+    this.props.logoutUser();
+    this.props.history.push("/");
+  };
   render() {
+    const { user } = this.props.auth;
+    console.log(user);
+
     return (
       <nav className="mb-1 navbar navbar-expand-lg navbar-dark default-color bg-primary">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/suppliers">
           <img
-            src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png"
+            src={Logo}
             // className="brand_logo"
             alt="Logo"
             width="30"
             height="30"
           />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -56,31 +72,40 @@ class NavBar extends Component {
                 Transactions
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/reports">
-                Generate Reports
-              </Link>
-            </li>
+            {user.userType === 1 && (
+              <React.Fragment>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/reports">
+                    Generate Reports
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/reports">
+                    Add Users
+                  </Link>
+                </li>
+              </React.Fragment>
+            )}
           </ul>
           <ul className="navbar-nav ml-auto nav-flex-icons">
             <li className="nav-item dropdown">
-              <a
+              <div
                 className="nav-link dropdown-toggle"
                 id="navbarDropdownMenuLink-333"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Grace Nduta
+                {user.firstName + " " + user.lastName + " "}
                 <i className="fas fa-user ml-1"></i>
-              </a>
+              </div>
               <div
                 className="dropdown-menu dropdown-menu-right dropdown-default"
                 aria-labelledby="navbarDropdownMenuLink-333"
               >
-                <Link className="dropdown-item" to="/">
+                <button className="dropdown-item" onClick={this.logoutUser}>
                   Logout
-                </Link>
+                </button>
               </div>
             </li>
           </ul>
@@ -90,4 +115,13 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logoutUser })(withRouter(NavBar));

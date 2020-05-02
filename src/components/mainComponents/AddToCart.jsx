@@ -1,7 +1,13 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 
 class AddToCart extends Component {
   state = {};
+  
+  // componentDidMount() {
+  //   if (!this.props.auth.isAuthenticated) {
+  //     this.props.history.push("/");
+  //   }
+  // }
   render() {
     return (
       <div

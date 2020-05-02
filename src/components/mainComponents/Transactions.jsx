@@ -51,7 +51,7 @@ class Transactions extends Component {
                   <td>Otto</td>
                   <td>Otto</td>
                   <td>
-                    <a className="btn btn-sm btn-danger">
+                    <a className="btn btn-sm btn-danger" href="">
                       <i class="fas fa-trash-alt"></i>
                     </a>
                   </td>

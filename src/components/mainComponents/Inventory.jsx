@@ -58,12 +58,12 @@ class Inventory extends Component {
                   <td>@mdo</td>
                   <td>@mdo</td>
                   <td>
-                    <a className="btn btn-sm btn-danger">
+                    <a className="btn btn-sm btn-danger" href="">
                       <i class="fas fa-trash-alt"></i>
                     </a>
                   </td>
                   <td>
-                    <a className="btn btn-sm btn-primary">
+                    <a className="btn btn-sm btn-primary" href="">
                       <i class="fas fa-pencil-alt"></i>
                     </a>
                   </td>
@@ -78,12 +78,12 @@ class Inventory extends Component {
                   <td>@mdo</td>
                   <td>@mdo</td>
                   <td>
-                    <a className="btn btn-sm btn-danger">
+                    <a className="btn btn-sm btn-danger" href="">
                       <i class="fas fa-trash-alt"></i>
                     </a>
                   </td>
                   <td>
-                    <a className="btn btn-sm btn-primary">
+                    <a className="btn btn-sm btn-primary" href="">
                       <i class="fas fa-pencil-alt"></i>
                     </a>
                   </td>
@@ -98,12 +98,12 @@ class Inventory extends Component {
                   <td>@mdo</td>
                   <td>@mdo</td>
                   <td>
-                    <a className="btn btn-sm btn-danger">
+                    <a className="btn btn-sm btn-danger" href="">
                       <i class="fas fa-trash-alt"></i>
                     </a>
                   </td>
                   <td>
-                    <a className="btn btn-sm btn-primary">
+                    <a className="btn btn-sm btn-primary" href="">
                       <i class="fas fa-pencil-alt"></i>
                     </a>
                   </td>
