@@ -1,11 +1,11 @@
 import React from "react";
 
-const AddSupplier = () => {
+const AddSupplier = ({ name, contact, location, createSupplier, onChange }) => {
   return (
     <div
       className="modal fade"
       id="exampleModal"
-      tabindex="-1"
+      tabIndex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -29,28 +29,37 @@ const AddSupplier = () => {
             {/* form */}
             <form>
               <div className="form-group">
-                <label for="exampleInputEmail1">Supplier Name</label>
+                <label htmlFor="exampleInputEmail1">Supplier Name</label>
                 <input
-                  type="email"
+                  type="text"
                   className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
+                  name="name"
+                  value={name}
+                  onChange={onChange}
                 />
               </div>
               <div className="form-group">
-                <label for="exampleInputPassword1">Contact</label>
+                <label htmlFor="exampleInputPassword1">Contact</label>
                 <input
                   type="text"
                   className="form-control"
                   id="exampleInputPassword1"
+                  name="contact"
+                  value={contact}
+                  onChange={onChange}
                 />
               </div>
               <div className="form-group">
-                <label for="exampleInputPassword1">Address</label>
+                <label htmlFor="exampleInputPassword1">Location</label>
                 <input
                   type="text"
                   className="form-control"
                   id="exampleInputPassword1"
+                  name="location"
+                  value={location}
+                  onChange={onChange}
                 />
               </div>
             </form>
@@ -64,7 +73,7 @@ const AddSupplier = () => {
             >
               Close
             </button>
-            <button type="button" className="btn btn-primary">
+            <button type="button" className="btn btn-primary" onClick={createSupplier}>
               Save Supplier
             </button>
           </div>
