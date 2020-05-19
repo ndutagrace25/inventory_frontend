@@ -39,6 +39,8 @@ class Login extends Component {
     }
   }
 
+
+
   render() {
     const { phone, password, errors } = this.state;
     // console.log(this.props.auth);
@@ -93,6 +95,7 @@ class Login extends Component {
                       onChange={this.onChange}
                     />
                   </div>
+                  {/* <textarea name="" id="" cols="30" rows="10"></textarea> */}
                   {errors.password && (
                     <small className="text-danger">{errors.password}</small>
                   )}
